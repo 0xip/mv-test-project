@@ -1,14 +1,14 @@
 import React, {useState,useEffect} from "react";
-import orders from './purchaseorders.json';
+import mvPurchaseOrdersData from './purchaseorders.json';
 
 const OrderList = () => {
-    const [selectedOrder, setSelectedOrder] = useState();
-
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const mvPurchaseOrders = mvPurchaseOrdersData.mvPurchaseOrders;
     return(
         <div className="container">
             <h1>Purchase Orders</h1>
             <ul className="list-group">
-                {orders.map((order, index) => (
+                {mvPurchaseOrders.map((order, index) => (
                     <li key={index} className="list-group-item">
                         <a href="#" onClick={() => setSelectedOrder(order)}>
                             {order.PurchaseOrderTypeAbbreviation} - {order.PurchaseOrderNo}
@@ -32,11 +32,11 @@ const OrderList = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {selectedOrder.PurchasedOrderDetails.map((detail, index)=> (
+                            {selectedOrder.PurchaseOrderDetails.map((detail, index)=> (
                                 <tr key={index}>
-                                    <td>{detail.PurchasedOrderRowProductSKU}</td>
+                                    <td>{detail.PurchaseOrderRowProductSKU}</td>
                                     <td>{detail.PurchaseOrderRowQuantity}</td>
-                                    <td>{detail.PurchaseOrderRowUnitPrice}</td>
+                                    <td>{detail.PurchaseOrderRowUnitPriceWithoutTaxOrDiscount}</td>
                                     <td>{detail.PurchaseOrderRowTotalAmount}</td>
                                 </tr>
                             ))}
