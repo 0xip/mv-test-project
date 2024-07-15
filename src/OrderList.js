@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import mvPurchaseOrdersData from './purchaseorders.json';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Container, Row, Col, Table} from 'react-bootstrap';
+import './OrderList.css'; 
 
 const OrderList = () => {
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -14,17 +15,21 @@ const OrderList = () => {
     };
 
     return(
-        <div className="container">
-            <h1>Purchase Orders</h1>
-            <ul className="list-group">
-                {mvPurchaseOrders.map((order, index) => (
-                    <li key={index} className="list-group-item">
+        <Container className="mt-5">
+            <Row className="justify-content-center">
+                <Col md={8}>
+                <h1 className="text-center mb-4">Purchase Orders</h1>
+                <ul className="list-group">
+                    {mvPurchaseOrders.map((order, index) => (
+                    <li key={index} className="list-group-item list-group-item-action">
                         <a href="#" onClick={() => handleShow(order)}>
-                            {order.PurchaseOrderTypeAbbreviation} - {order.PurchaseOrderNo}
+                        {order.PurchaseOrderTypeAbbreviation} - {order.PurchaseOrderNo}
                         </a>
                     </li>
-                 ))}
-            </ul>
+                    ))}
+                </ul>
+                </Col>
+            </Row>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
@@ -33,12 +38,11 @@ const OrderList = () => {
                 <Modal.Body>
                     {selectedOrder && (
                         <>
-                            <h2>Order Details</h2>
-                            <p>Adress: {selectedOrder.PurchaseOrderAddress}</p>
-                            <p>Contact Person: {selectedOrder.PurchaseOrderContactPerson}</p>
-                            <p>Status: {selectedOrder.PurchaseOrderStatus}</p>
-                            <table className="table">
-                                <thead>
+                            <p><strong>Adress:</strong> {selectedOrder.PurchaseOrderAddress}</p>
+                            <p><strong>Contact Person:</strong> {selectedOrder.PurchaseOrderContactPerson}</p>
+                            <p><strong>Status:</strong> {selectedOrder.PurchaseOrderStatus}</p>
+                            <Table className="mt-4" bordered hover>
+                                <thead className="thead-dark">
                                     <tr>
                                         <th>Product SKU</th>
                                         <th>Quantity Ordered</th>
@@ -56,7 +60,7 @@ const OrderList = () => {
                                         </tr>
                                     ))}
                                 </tbody>
-                            </table>
+                            </Table>
                         </>
                      )}
                 </Modal.Body>
@@ -66,7 +70,7 @@ const OrderList = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-          </div>
+          </Container>
         );
     };
 
