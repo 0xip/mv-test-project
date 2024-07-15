@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import mvPurchaseOrdersData from './purchaseorders.json';
-import { Modal, Button, Container, Row, Col, Table} from 'react-bootstrap';
+import { Modal, Button, Container, Row, Col} from 'react-bootstrap';
 import './OrderList.css'; 
 
 const OrderList = () => {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [show,setShow] = useState(false);
 
-    const mvPurchaseOrders = mvPurchaseOrdersData.mvPurchaseOrders;
+    const mvPurchaseOrders = mvPurchaseOrdersData.mvPurchaseOrders.sort((a, b) => a.PurchaseOrderNo - b.PurchaseOrderNo);
     const handleClose= ()=> setShow(false);
     const handleShow=(order)=>{
         setSelectedOrder(order);
@@ -18,10 +18,10 @@ const OrderList = () => {
         <Container className="mt-5">
             <Row className="justify-content-center">
                 <Col md={8}>
-                <h1 className="text-center mb-4">Purchase Orders</h1>
+                <h1>Purchase Orders</h1>
                 <ul className="list-group">
                     {mvPurchaseOrders.map((order, index) => (
-                    <li key={index} className="list-group-item list-group-item-action">
+                    <li key={index} className="list-group-item">
                         <a href="#" onClick={() => handleShow(order)}>
                         {order.PurchaseOrderTypeAbbreviation} - {order.PurchaseOrderNo}
                         </a>
@@ -41,8 +41,8 @@ const OrderList = () => {
                             <p><strong>Adress:</strong> {selectedOrder.PurchaseOrderAddress}</p>
                             <p><strong>Contact Person:</strong> {selectedOrder.PurchaseOrderContactPerson}</p>
                             <p><strong>Status:</strong> {selectedOrder.PurchaseOrderStatus}</p>
-                            <Table className="mt-4" bordered hover>
-                                <thead className="thead-dark">
+                            <table className="table">
+                                <thead>
                                     <tr>
                                         <th>Product SKU</th>
                                         <th>Quantity Ordered</th>
@@ -60,7 +60,7 @@ const OrderList = () => {
                                         </tr>
                                     ))}
                                 </tbody>
-                            </Table>
+                            </table>
                         </>
                      )}
                 </Modal.Body>
